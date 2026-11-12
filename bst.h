@@ -208,7 +208,7 @@ public:
     /**
     * An internal iterator class for traversing the contents of the BST.
     */
-    class iterator  // TODO
+    class iterator :  // TODO
     {
     public:
         iterator();
@@ -266,7 +266,8 @@ Begin implementations for the BinarySearchTree::iterator class.
 template<class Key, class Value>
 BinarySearchTree<Key, Value>::iterator::iterator(Node<Key,Value> *ptr)
 {
-    // TODO
+  // TODO
+
 }
 
 /**
@@ -356,6 +357,7 @@ template<class Key, class Value>
 BinarySearchTree<Key, Value>::BinarySearchTree() 
 {
     // TODO
+    root_ = nullptr;
 }
 
 template<typename Key, typename Value>
@@ -444,7 +446,38 @@ Value const & BinarySearchTree<Key, Value>::operator[](const Key& key) const
 template<class Key, class Value>
 void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &keyValuePair)
 {
-    // TODO
+  // TODO
+  Node* temp = internalFind(keyValuePair.first);
+  if (temp != nullptr){//key already exists so updating value
+    temp->setValue(keyValuePair.second);
+  }
+  else if (root_ == nullptr){empty tree so setting root node
+    root_ = Node(keyValuePair.first, keyValuePair.second, nullptr);
+  }
+  else {
+    temp = root_;
+    Key k = keyValuePair.first;
+    while (true) {
+      if (k < temp->getKey()) {
+        if (temp->getLeft() == nullptr) {
+          temp->setLeft(new Node<Key, Value>(
+          k, keyValuePair.second, temp));
+          return;
+        }
+        temp = temp->getLeft();
+      }
+      else {
+        if (temp->getRight() == nullptr) {
+          temp->setRight(new Node<Key, Value>(
+          k, keyValuePair.second, temp));
+          return;
+        }
+        temp = temp->getRight();
+      }
+    }
+
+  }
+
 }
 
 
@@ -487,7 +520,8 @@ template<typename Key, typename Value>
 Node<Key, Value>*
 BinarySearchTree<Key, Value>::getSmallestNode() const
 {
-    // TODO
+  // TODO
+  
 }
 
 /**
@@ -499,6 +533,20 @@ template<typename Key, typename Value>
 Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) const
 {
     // TODO
+    Node* temp = root_;
+
+    while (temp != nullptr){
+      if (key == temp_>getKey()){
+        return temp;
+      }
+      else if (key < temp->getKey()){
+        temp = temp->getLeft();
+      }
+      else {
+        temp = temp_>getRight();
+      }
+    }
+    return nullptr;
 }
 
 /**
